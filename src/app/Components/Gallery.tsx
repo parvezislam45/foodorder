@@ -2,21 +2,21 @@ const Gallery = () => {
   return (
     <div>
       <section className="relative bg-[#1d1515] text-white py-16 overflow-hidden">
-        <div className="relative flex justify-center items-start">
-          <div>
-            <img
-              className="mx-auto bg-fixed bg-cover"
-              src="https://demo.bravisthemes.com/hungrybuzz/wp-content/uploads/2023/06/title_back.png"
-              alt="Background Image"
-            />
-            <h1 className="absolute inset-0 flex justify-center items-center text-3xl text-white nav mt-16">
-              Photo Gallery
-            </h1>
-            <h1 className="absolute inset-0 flex justify-center items-center text-4xl text-amber-600 nav mt-36 head">
-              Have a glimps of some delicacies of David Parvez buzz
-            </h1>
-          </div>
+      <div className="relative flex justify-center items-start">
+        <div>
+          <img
+            className="mx-auto mt-10 bg-fixed bg-cover"
+            src="https://demo.bravisthemes.com/hungrybuzz/wp-content/uploads/2023/06/title_back.png"
+            alt="Background Image"
+          />
+          <h1 className="absolute inset-0 flex justify-center items-center text-4xl font-bold text-white nav mt-28">
+            Photo Gallary
+          </h1>
+          <h1 className="absolute inset-0 flex justify-center items-center sm:text-3xl md:text-4xl text-amber-600 nav mt-56 head">
+            Find your Favourite meal from the delicious options we have
+          </h1>
         </div>
+      </div>
         {/* Gallery Content */}
         <div className="relative z-10 container mx-auto grid grid-cols-3 mt-10">
           <div className="flex flex-col gap-8">

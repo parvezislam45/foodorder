@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 const Blog = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [cardsToShow, setCardsToShow] = useState(3); // Default to 3 cards visible
   const sliderRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef<number | null>(null);
+  const isSwipingRef = useRef(false);
 
   const cards = [
     {
@@ -89,86 +91,90 @@ const Blog = () => {
   const handleSwipe = (direction: "left" | "right") => {
     setCurrentIndex((prevIndex) => {
       if (direction === "left") {
-        return prevIndex === cards.length - 3 ? 0 : prevIndex + 1;
+        return prevIndex === cards.length - cardsToShow ? 0 : prevIndex + 1;
       } else {
-        return prevIndex === 0 ? cards.length - 3 : prevIndex - 1;
+        return prevIndex === 0 ? cards.length - cardsToShow : prevIndex - 1;
       }
     });
   };
 
-  const onMouseDown = (e: React.MouseEvent) => {
-    startXRef.current = e.clientX;
+  const onTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
+    startXRef.current = "touches" in e ? e.touches[0].clientX : e.clientX;
+    isSwipingRef.current = true;
   };
 
-  const onMouseMove = (e: MouseEvent) => {
-    if (startXRef.current !== null) {
-      const diffX = startXRef.current - e.clientX;
-      if (diffX > 50) {
-        handleSwipe("left");
-        startXRef.current = null; // Reset to prevent multiple swipes in one move
-      } else if (diffX < -50) {
-        handleSwipe("right");
-        startXRef.current = null;
-      }
+  const onTouchMove = (e: React.TouchEvent | React.MouseEvent) => {
+    if (!isSwipingRef.current || startXRef.current === null) return;
+    const currentX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const diffX = startXRef.current - currentX;
+
+    if (diffX > 50) {
+      handleSwipe("left");
+      resetSwipe();
+    } else if (diffX < -50) {
+      handleSwipe("right");
+      resetSwipe();
     }
   };
 
-  const onMouseUp = () => {
+  const resetSwipe = () => {
     startXRef.current = null;
-    window.removeEventListener("mousemove", onMouseMove);
-    window.removeEventListener("mouseup", onMouseUp);
+    isSwipingRef.current = false;
+  };
+
+  const onTouchEnd = () => {
+    resetSwipe();
   };
 
   useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.addEventListener("mousemove", onMouseMove);
-      sliderRef.current.addEventListener("mouseup", onMouseUp);
-    }
+    const updateCardsToShow = () => {
+      const width = window.innerWidth;
+      if (width >= 1024) setCardsToShow(3); // lg
+      else if (width >= 768) setCardsToShow(2); // md
+      else setCardsToShow(1); // sm
+    };
+
+    updateCardsToShow();
+    window.addEventListener("resize", updateCardsToShow);
 
     return () => {
-      if (sliderRef.current) {
-        sliderRef.current.removeEventListener("mousemove", onMouseMove);
-        sliderRef.current.removeEventListener("mouseup", onMouseUp);
-      }
+      window.removeEventListener("resize", updateCardsToShow);
     };
   }, []);
 
   return (
     <div>
       <section className="relative bg-[#1d1515] text-white py-16 overflow-hidden">
-        <div className="relative flex justify-center items-start">
-          <div>
-            <img
-              className="mx-auto bg-fixed bg-cover"
-              src="https://demo.bravisthemes.com/hungrybuzz/wp-content/uploads/2023/06/title_back.png"
-              alt="Background Image"
-            />
-            <h1 className="absolute inset-0 flex justify-center items-center text-3xl font-semibold text-white nav mt-16">
-              Latest Food Blog
-            </h1>
-            <h1 className="absolute inset-0 flex justify-center items-center text-4xl text-amber-600 nav mt-36 head">
-              Have a glimps of some delicacies of David Parvez buzz
-            </h1>
-          </div>
-        </div>
+        <h1 className="text-center text-3xl text-white font-bold mb-4">
+          Latest Food Blog
+        </h1>
         <div
           className="overflow-hidden relative"
           ref={sliderRef}
-          onMouseDown={onMouseDown}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+          onMouseDown={onTouchStart}
+          onMouseMove={onTouchMove}
+          onMouseUp={onTouchEnd}
         >
           <div
             className="flex transition-transform duration-300"
-            style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
+            style={{
+              transform: `translateX(-${currentIndex * (100 / cardsToShow)}%)`,
+            }}
           >
             {cards.map((card) => (
               <div
                 key={card.id}
-                className="w-1/3 flex-shrink-0 flex-grow-0 px-4"
+                className={`flex-shrink-0 px-4 ${
+                  cardsToShow === 3 ? "w-1/3" : cardsToShow === 2 ? "w-1/2" : "w-full"
+                }`}
               >
                 <div className="rounded overflow-hidden shadow-lg">
-                  <a href="#"></a>
-                  <div className="relative">
-                    <a href="#">
+                <a href="#"></a>
+                <div  className="relative">
+                <a href="#">
                       <img
                         className="w-full h-80"
                         src={card.image}
@@ -181,16 +187,15 @@ const Blog = () => {
                         Photos
                       </div>
                     </a>
-
                     <a href="!#">
                       <div className="text-sm absolute top-0 right-0 bg-amber-700 px-4 text-white rounded-full h-16 w-16 flex flex-col items-center justify-center mt-3 mr-3 hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
                         <span className="font-bold head">{card.date}</span>
                         <small className="nav">{card.month}</small>
                       </div>
                     </a>
-                  </div>
-                  <div className="px-6 py-4">
-                    <a
+                </div>
+                <div className="px-6 py-4">
+                <a
                       href="#"
                       className="font-semibold text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out text-amber-600 nav"
                     >
@@ -199,8 +204,8 @@ const Blog = () => {
                     <p className="text-white text-xs nav mt-4">
                       {card.short}
                     </p>
-                  </div>
-                  <div className="px-6 py-4 flex flex-row items-center">
+                </div>
+                <div className="px-6 py-4 flex flex-row items-center">
                     <span className="py-1 text-sm font-regular text-white mr-1 flex flex-row items-center">
                     <svg className="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" fill="white"></path></svg>
                       <span className="ml-3 text-white head font-bold">{card.time} mins ago</span>

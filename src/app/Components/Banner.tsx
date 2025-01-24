@@ -26,71 +26,59 @@ const Banner = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
   };
     return (
-        <div>
-           <div className="relative w-full h-[500px] overflow-hidden flex">
+      <div className="w-full h-[500px] md:h-[600px] overflow-hidden flex flex-col md:flex-row">
       {/* Left Side Section */}
-      <div className="w-[100px] bg-[#1d1515] flex flex-col items-center justify-center relative z-10">
-      {/* Previous Button */}
-      <button
-        onClick={handlePrev}
-        className="mb-4 bg-transparent hover:text-red-700 text-white w-10 h-10 flex items-center justify-center"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
+      <div className="w-full md:w-[100px] bg-[#1d1515] flex flex-row md:flex-col items-center justify-center md:justify-between p-2 md:p-0">
+        {/* Previous Button */}
+        <button
+          onClick={handlePrev}
+          className="mb-4 md:mb-0 bg-transparent hover:text-red-700 text-white w-10 h-10 flex items-center justify-center"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7-7-7 7" />
-        </svg>
-      </button>
-
-      {/* Number Buttons */}
-      <button
-        onClick={() => setCurrentIndex(0)}
-        className={`bg-transparent hover:text-red-700 head text-2xl text-white w-10 h-10 flex items-center mt-8 justify-center ${
-          currentIndex === 0 ? "bg-blue-500" : ""
-        }`}
-      >
-        01
-      </button>
-      <button
-        onClick={() => setCurrentIndex(1)}
-        className={`bg-transparent hover:text-red-700 head text-2xl text-white w-10 h-10 flex items-center justify-center ${
-          currentIndex === 1 ? "bg-blue-500" : ""
-        }`}
-      >
-        02
-      </button>
-      <button
-        onClick={() => setCurrentIndex(2)}
-        className={`bg-transparent hover:text-red-700 head text-2xl text-white w-10 h-10 flex items-center justify-center ${
-          currentIndex === 2 ? "bg-blue-500" : ""
-        }`}
-      >
-        03
-      </button>
-
-      {/* Next Button */}
-      <button
-        onClick={handleNext}
-        className="bg-transparent mt-8 text-white w-10 h-10 flex items-center justify-center"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6 hover:text-red-700"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7-7-7 7" />
+          </svg>
+        </button>
+    
+        {/* Number Buttons */}
+        <div className="flex flex-row md:flex-col space-x-2 md:space-x-0 md:space-y-2">
+          {[0, 1, 2].map((num) => (
+            <button
+              key={num}
+              onClick={() => setCurrentIndex(num)}
+              className={`bg-transparent hover:text-red-700 text-xl md:text-2xl text-white w-10 h-10 flex items-center justify-center ${
+                currentIndex === num ? "bg-blue-500" : ""
+              }`}
+            >
+              0{num + 1}
+            </button>
+          ))}
+        </div>
+    
+        {/* Next Button */}
+        <button
+          onClick={handleNext}
+          className="mt-4 md:mt-8 bg-transparent text-white w-10 h-10 flex items-center justify-center"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 10l-7 7-7-7" />
-        </svg>
-      </button>
-    </div>
-
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6 hover:text-red-700"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 10l-7 7-7-7" />
+          </svg>
+        </button>
+      </div>
+    
       {/* Slider Section */}
       <div className="relative flex-1 h-full">
         {slides.map((slide, index) => (
@@ -103,7 +91,7 @@ const Banner = () => {
           >
             <div className="absolute inset-0 bg-black opacity-60"></div>
             <h1
-              className={`head text-8xl text-white transition-transform duration-1000 ease-linear ${
+              className={`text-4xl md:text-6xl lg:text-8xl text-white transition-transform duration-1000 head ease-linear ${
                 currentIndex === index ? "translate-x-0" : "-translate-x-full"
               }`}
             >
@@ -111,7 +99,7 @@ const Banner = () => {
             </h1>
             <a
               href={slide.buttonLink}
-              className={`mt-4 px-6 py-2 bg-blue-500 text-white rounded-full transition-transform duration-1000 ease-linear ${
+              className={`mt-4 px-4 py-2 md:px-6 md:py-3 bg-blue-500 text-white rounded-full text-sm md:text-base lg:text-lg transition-transform duration-1000 ease-linear ${
                 currentIndex === index ? "translate-y-0 opacity-100" : "translate-y-[200%] opacity-0"
               }`}
             >
@@ -119,13 +107,14 @@ const Banner = () => {
             </a>
           </div>
         ))}
-
+    
+        {/* Dots for Navigation */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-4 h-4 rounded-full ${
+              className={`w-3 h-3 md:w-4 md:h-4 rounded-full ${
                 currentIndex === index ? "bg-blue-500" : "bg-gray-300"
               }`}
             ></button>
@@ -133,7 +122,7 @@ const Banner = () => {
         </div>
       </div>
     </div>
-        </div>
+    
     );
 };
 

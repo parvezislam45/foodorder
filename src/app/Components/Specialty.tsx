@@ -2,10 +2,10 @@
 
 const Specialty = () => {
     const cardData = [
-        { icon: 'https://i.postimg.cc/52TrNZww/Screenshot-2025-01-08-211100-removebg-preview.png', text: 'Finest Chef', image: '/images/burger.jpg' },
-        { icon: 'https://i.postimg.cc/kGJ1p9md/Screenshot-2025-01-08-211221-removebg-preview.png', text: 'Beautiful Ambience', image: '/images/pizza.jpg' },
-        { icon: 'https://i.postimg.cc/c459XVkV/Screenshot-2025-01-08-211331-removebg-preview.png', text: 'Safe Food Takeout', image: '/images/sushi.jpg' },
-        { icon: 'https://i.postimg.cc/P5g6k1jy/Screenshot-2025-01-08-211401-removebg-preview.png', text: 'Famous Cuisines', image: '/images/salad.jpg' },
+        { icon: 'https://i.postimg.cc/52TrNZww/Screenshot-2025-01-08-211100-removebg-preview.png', text: 'Finest Chef', image: 'https://static.standard.co.uk/2023/03/22/09/newFile-5.jpg?trim=0,709,0,180&quality=75&auto=webp&width=960' },
+        { icon: 'https://i.postimg.cc/kGJ1p9md/Screenshot-2025-01-08-211221-removebg-preview.png', text: 'Beautiful Ambience', image: 'https://media.istockphoto.com/id/1054319798/photo/group-of-happy-friends-having-breakfast-in-the-restaurant.jpg?s=612x612&w=0&k=20&c=rdb2gaIzr5n2eZthvK1B73LQa3yapubVD2AM_-SF50o=' },
+        { icon: 'https://i.postimg.cc/c459XVkV/Screenshot-2025-01-08-211331-removebg-preview.png', text: 'Safe Food Takeout', image: 'https://media.licdn.com/dms/image/v2/D4E12AQEKvSJVzT_MqQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1725869292492?e=2147483647&v=beta&t=8d-1bG-J098hUP1zpOf_H2ye4KVXSEuN0WpdoJlwLqo' },
+        { icon: 'https://i.postimg.cc/P5g6k1jy/Screenshot-2025-01-08-211401-removebg-preview.png', text: 'Famous Cuisines', image: 'https://media.timeout.com/images/105859768/750/422/image.jpg' },
       ];
       return (
         <section className="flex flex-wrap md:flex-nowrap items-center justify-between bg-[#1d1515] p-8 gap-28">
@@ -72,7 +72,7 @@ const Specialty = () => {
             style={{ backgroundImage: `url(${image})` }}
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-              <p className="text-white px-4 text-center">
+              <p className="text-white font-normal nav px-4 text-center">
                 This is a special dish made with love and the finest ingredients.
                 Discover more by clicking on the card.
               </p>

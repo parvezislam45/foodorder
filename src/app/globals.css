@@ -21,6 +21,10 @@
   font-family: "Style Script", serif;
 }
 
+.about{
+  font-family: "EB Garamond", serif;
+}
+
 @keyframes bounce-slow {
   0%, 100% {
     transform: translateY(0);

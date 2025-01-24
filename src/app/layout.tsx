@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "./Shered/Nav";
+import Footer from "./Shered/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,12 +35,14 @@ export default function RootLayout({
       <link href="https://fonts.googleapis.com/css2?family=Arizonia&family=Ms+Madi&display=swap" rel="stylesheet"></link>
       <link href="https://fonts.googleapis.com/css2?family=Style+Script&display=swap" rel="stylesheet"></link>
       <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap" rel="stylesheet"></link>
+      <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet"></link>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Nav/>
         {children}
+        <Footer/>
       </body>
     </html>
   );
