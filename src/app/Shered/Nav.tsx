@@ -8,7 +8,7 @@ import { IoMdLogIn } from "react-icons/io";
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <nav className="bg-[#1d1515] p-4 px-5">
+    <nav className="bg-[#1d1515] p-4 px-5 fixed w-full z-50">
       <div className="max-w-screen-xl mx-auto flex items-center justify-between">
         {/* Left section (Cart, Wishlist) */}
         <div className="flex items-center space-x-4">

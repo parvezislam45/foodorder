@@ -186,22 +186,6 @@ const About = () => {
       </div>
 
       <section className="relative bg-[#1d1515] bg-fixed bg-cover">
-  {/* Section Header */}
-  <div className="relative flex justify-center items-start">
-    <div>
-      <img
-        className="mx-auto mt-10 bg-fixed bg-cover"
-        src="https://demo.bravisthemes.com/hungrybuzz/wp-content/uploads/2023/06/title_back.png"
-        alt="Background Image"
-      />
-      <h1 className="absolute inset-0 flex justify-center items-center text-4xl text-white nav mt-28">
-        Tasting Timeline
-      </h1>
-      <h1 className="absolute inset-0 flex justify-center items-center sm:text-3xl md:text-5xl text-amber-600 nav mt-56 head">
-        Find your Favourite meal from the delicious options we have
-      </h1>
-    </div>
-  </div>
 
   {/* Timeline Section */}
   <section className="relative bg-[#1d1515] bg-fixed bg-cover">

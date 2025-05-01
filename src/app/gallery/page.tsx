@@ -3,32 +3,53 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const categories = ["All", "Drinks", "Steak", "Dessert", "Seafood"];
-const images = {
+type Category = "All" | "Drinks" | "Steak" | "Dessert" | "Seafood";
+type ImageCollection = Record<Category, string[]>;
+
+const categories: Category[] = ["All", "Drinks", "Steak", "Dessert", "Seafood"];
+const images: ImageCollection = {
   All: [
-    "/images/drinks1.jpg",
-    "/images/drinks2.jpg",
-    "/images/drinks3.jpg",
-    "/images/drinks4.jpg",
-    "/images/steak1.jpg",
-    "/images/steak2.jpg",
-    "/images/steak3.jpg",
-    "/images/dessert1.jpg",
-    "/images/dessert2.jpg",
-    "/images/dessert3.jpg",
-    "/images/dessert4.jpg",
-    "/images/seafood1.jpg",
-    "/images/seafood2.jpg",
-    "/images/seafood3.jpg",
+    "https://images.unsplash.com/photo-1683964022880-c2d93b41caf7?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dg",
+    "https://images.unsplash.com/photo-1552611052-d59a0d9741bc?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1713639365497-c041ce813de6?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=2020&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1553659971-f01207815844?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1506084868230-bb9d95c24759?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1520080906273-ac3114063b21?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1713371128106-3d4c5ad9e308?q=80&w=1996&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1546197361-5ce3f0340bb2?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1713447395823-2e0b40b75a89?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1559737558-2f5a35f4523b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1624896276654-2eb0c7e8247c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   ],
-  Drinks: ["/images/drinks1.jpg", "/images/drinks2.jpg", "/images/drinks3.jpg", "/images/drinks4.jpg"],
-  Steak: ["/images/steak1.jpg", "/images/steak2.jpg", "/images/steak3.jpg"],
-  Dessert: ["/images/dessert1.jpg", "/images/dessert2.jpg", "/images/dessert3.jpg", "/images/dessert4.jpg"],
-  Seafood: ["/images/seafood1.jpg", "/images/seafood2.jpg", "/images/seafood3.jpg"],
+  Drinks: [
+    "https://images.unsplash.com/photo-1683964022880-c2d93b41caf7?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dg",
+    "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1546197361-5ce3f0340bb2?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1624896276654-2eb0c7e8247c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  ],
+  Steak: [
+    "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=2020&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1506084868230-bb9d95c24759?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  ],
+  Dessert: [
+    "https://images.unsplash.com/photo-1520080906273-ac3114063b21?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1713371128106-3d4c5ad9e308?q=80&w=1996&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1713639365497-c041ce813de6?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1713447395823-2e0b40b75a89?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  ],
+  Seafood: [
+    "https://images.unsplash.com/photo-1559737558-2f5a35f4523b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1553659971-f01207815844?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1552611052-d59a0d9741bc?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  ],
 };
 
 const Gallery = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedCategory, setSelectedCategory] = useState<Category>("All");
 
   return (
     <div className="relative bg-cover bg-center h-auto py-16 bg-[#1d1515]">
@@ -86,7 +107,7 @@ const Gallery = () => {
               exit={{ opacity: 0, y: 50 }}
               transition={{
                 duration: 0.4,
-                delay: index * 0.1, // Stagger animation for each image
+                delay: index * 0.1,
                 ease: "easeInOut",
               }}
               className="relative overflow-hidden rounded-lg shadow-lg"
@@ -95,6 +116,7 @@ const Gallery = () => {
                 src={image}
                 alt={`Gallery ${index + 1}`}
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
             </motion.div>
           ))}
